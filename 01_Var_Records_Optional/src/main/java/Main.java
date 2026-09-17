@@ -1,66 +1,55 @@
 void main() {
     // Create a record just like any other instance
     // of a 'regular' class
-    Log log = new Log(
-        LocalDateTime.now(),
-        "A critical error occurred.",
-        LogType.CRITICAL
+    Animal animal = new Animal(
+        "Rex",
+        3,
+        AnimalType.DOG,
+        LocalDate.now()
     );
 
     // Note that there are only getters, no setters
-    var dbValue = log.logType().getDbValue();
+    var shelterCode = animal.type().getShelterCode();
 
-    var latestLogMessage = getLatestLogMessage();
+    var repository = new AnimalShelterRepository();
+    var newestArrival = repository.findNewestArrival();
 
     // ifPresent executes the lambda expression
-    // iff (if and only if) there is a Log-instance
+    // iff (if and only if) there is an Animal-instance
     // present in the optional that is returned
-    // (the optional in latestLogMessage)
-    latestLogMessage.ifPresent(l -> System.out.println(l));
+    // (the optional in newestArrival)
+    newestArrival.ifPresent(a -> System.out.println(a));
 
     // This is what a lambda expression actually
     // is - an anonymous class of type 'Consumer'
-    // taking an instance of type 'Log'
+    // taking an instance of type 'Animal'
     // ifPresent calls the accept method.
-    // So "l -> System.out.println(l)" gets converted
+    // So "a -> System.out.println(a)" gets converted
     // into this code
-//    latestLogMessage.ifPresent(new Consumer<Log>() {
+//    newestArrival.ifPresent(new Consumer<Animal>() {
 //        @Override
-//        public void accept(Log log) {
-//            System.out.println(log);
+//        public void accept(Animal animal) {
+//            System.out.println(animal);
 //        }
 //    });
 
     // This is a shorthand version for the stuff above
     // basically this gets converted to:
-    // l -> System.out.println(l)
+    // a -> System.out.println(a)
     // Explanation: It calls the println method
     // on the System.out instance (that's the point
     // of the :: -> this says: 'call println on the
     // object System.out).
-//    latestLogMessage.ifPresent(System.out::println);
+//    newestArrival.ifPresent(System.out::println);
 
-    var latestWarningLogMessage = getLatestWarningLogMessage();
-    latestWarningLogMessage.ifPresent(l -> System.out.println(l));
+    var availableRabbit = repository.findAvailableRabbit();
+    availableRabbit.ifPresent(a -> System.out.println(a));
 
-    var message = switch(log.logType()) {
-        case LogType.INFO, LogType.WARNING -> "no";
-        case LogType.ERROR -> "maybe";
-        case LogType.CRITICAL -> "yes";
+    var enclosure = switch(animal.type()) {
+        case AnimalType.RABBIT, AnimalType.PARROT -> "small enclosure";
+        case AnimalType.CAT -> "medium enclosure";
+        case AnimalType.DOG -> "large enclosure";
         default -> "This shouldn't happen.";
     };
-    System.out.println("Do we need to care about the log? " + message);
+    System.out.println("Which enclosure does the animal need? " + enclosure);
 }
-
-Optional<Log> getLatestLogMessage() {
-    return Optional.of(new Log(
-            LocalDateTime.now(),
-            "A critical error occurred.",
-            LogType.CRITICAL
-    ));
-}
-
-Optional<Log> getLatestWarningLogMessage() {
-    return Optional.empty();
-}
-
