@@ -1,0 +1,47 @@
+= 3AHIF POS Live Coding
+:source-highlighter: highlight.js
+:toc: left
+:toclevels: 2
+:icons: font
+
+== The Live Coding Project
+
+This project is based on:
+
+* Java 27
+* Gradle 9.8.1
+
+It is structured as Gradle project with subprojects.
+
+The session codes will be placed into the subprojects.
+
+== 00 Simple Java Gradle project
+
+A basic setup showcasing the structure of a Java Gradle module/project.
+
+[source,java]
+.link:00-java-gradle-base/src/main/java/org/example/App.java[App.java]
+----
+include::00-java-gradle-base/src/main/java/org/example/App.java[lines=4..]
+----
+
+[source,kotlin]
+.link:00-java-gradle-base/build.gradle.kts[build.gradle.kts]
+----
+include::00-java-gradle-base/build.gradle.kts[]
+----
+
+== 01 var, records, optional
+
+Showcasing 'new' language features: records, Optional, enum, switch-expression
+
+== 02 Unit Testing
+
+Showcasing the application of unit testing, with an example on the happy path and
+the edge case.
+
+== 03 Streams Intro
+
+Introducing the Stream API, by showing various stream operations and terminal functions.
+
+== 100 Set Theory
